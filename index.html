@@ -1,1 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equivalent Calculator ★ Safe & Verified</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <span class="logo-badge">≡</span>
+        <div>
+          <h1 class="app-title">Equivalent Calculator</h1>
+          <p class="app-subtitle">Same answer, different perspective</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="themeToggleBtn" class="icon-btn" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+          <span class="theme-icon">☀️</span>
+        </button>
+        <button id="historyToggleBtn" class="icon-btn" title="Toggle Calculation History" aria-label="View History">
+          <span class="history-icon">⏱️</span>
+          <span id="historyBadge" class="history-count-badge">0</span>
+        </button>
+      </div>
+    </header>
 
+    <!-- Main Layout: Calculator + History Panel -->
+    <main class="main-content">
+      <!-- Calculator Card -->
+      <section class="calc-card" aria-label="Calculator">
+        <!-- Display Screen -->
+        <div class="calc-screen">
+          <!-- Expression Input Line -->
+          <div class="expression-row">
+            <span id="expressionDisplay" class="expression-text" placeholder="0">0</span>
+          </div>
+
+          <!-- Equivalent Division Solution Display (Only Result) -->
+          <div id="equivalentCard" class="equivalent-card">
+            <div class="equivalent-header">
+              <span class="equivalent-tag">
+                <span class="pulse-dot"></span> EQUIVALENT SOLUTION
+              </span>
+              <span id="verifiedStatusBadge" class="verified-status-badge">
+                ✓ Verified Division
+              </span>
+            </div>
+            
+            <div class="equivalent-body">
+              <div id="equivalentDisplay" class="equivalent-text">40 / 2</div>
+            </div>
+
+            <div class="equivalent-actions">
+              <button id="generateAnotherBtn" class="pill-btn secondary-pill" title="Generate another equivalent division expression">
+                <span class="btn-icon">🔄</span> Generate Another
+              </button>
+              <button id="verifyAnswerBtn" class="pill-btn primary-pill" title="Verify division gives the actual answer">
+                <span class="btn-icon">🔍</span> Verify Answer
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verification Banner / Modal -->
+        <div id="verificationProof" class="verification-proof hidden">
+          <div class="proof-header">
+            <span class="proof-title">Mathematical Verification</span>
+            <button id="closeProofBtn" class="close-proof-btn" aria-label="Close Verification">&times;</button>
+          </div>
+          <div class="proof-content" id="proofContent">
+            <!-- Dynamically populated proof steps -->
+          </div>
+        </div>
+
+        <!-- Keypad -->
+        <div class="calc-keypad" role="group" aria-label="Calculator keypad">
+          <!-- Row 1: Controls -->
+          <button class="key action-key key-clear" data-action="clear" title="Clear (Escape)">AC</button>
+          <button class="key action-key key-backspace" data-action="backspace" title="Backspace (Backspace)">⌫</button>
+          <button class="key paren-key" data-char="(" title="Open Parenthesis">(</button>
+          <button class="key paren-key" data-char=")" title="Close Parenthesis">)</button>
+
+          <!-- Row 2 -->
+          <button class="key num-key" data-char="7">7</button>
+          <button class="key num-key" data-char="8">8</button>
+          <button class="key num-key" data-char="9">9</button>
+          <button class="key op-key" data-char="÷" title="Divide (/)">÷</button>
+
+          <!-- Row 3 -->
+          <button class="key num-key" data-char="4">4</button>
+          <button class="key num-key" data-char="5">5</button>
+          <button class="key num-key" data-char="6">6</button>
+          <button class="key op-key" data-char="×" title="Multiply (*)">×</button>
+
+          <!-- Row 4 -->
+          <button class="key num-key" data-char="1">1</button>
+          <button class="key num-key" data-char="2">2</button>
+          <button class="key num-key" data-char="3">3</button>
+          <button class="key op-key" data-char="−" title="Subtract (-)">−</button>
+
+          <!-- Row 5 -->
+          <button class="key num-key" data-char="0">0</button>
+          <button class="key num-key" data-char=".">.</button>
+          <button class="key op-key" data-char="^" title="Power (^)">^</button>
+          <button class="key op-key" data-char="+" title="Add (+)">+</button>
+
+          <!-- Row 6: Equals -->
+          <button class="key equals-key" data-action="calculate" title="Calculate (Enter)">=</button>
+        </div>
+      </section>
+
+      <!-- History Drawer / Panel -->
+      <aside id="historyPanel" class="history-panel" aria-label="Calculation History">
+        <div class="history-header">
+          <h2 class="history-title">History</h2>
+          <div class="history-header-actions">
+            <button id="clearHistoryBtn" class="text-btn danger" title="Clear all history">Clear</button>
+            <button id="closeHistoryBtn" class="icon-btn mobile-only" title="Close history">&times;</button>
+          </div>
+        </div>
+
+        <div id="historyList" class="history-list">
+          <div class="history-empty">
+            <span class="empty-icon">📝</span>
+            <p>No calculations yet</p>
+            <small>Try typing <code>1 + 1</code></small>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Footer with Tips & Keyboard Shortcuts -->
+    <footer class="app-footer">
+      <div class="shortcuts-guide">
+        <span><strong>Keyboard Shortcuts:</strong> Numbers <code>0-9</code>, <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>( )</code>, <code>Enter</code> (=), <code>Esc</code> (AC), <code>Backspace</code></span>
+      </div>
+      <div class="safe-badge">
+        <span>🔒 Safe Evaluation Engine (Zero <code>eval()</code>)</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
